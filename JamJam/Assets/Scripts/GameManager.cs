@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -22,6 +23,14 @@ public class GameManager : MonoBehaviour
         Pausee();
         MainCam = Camera.main.transform;
         aim.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Quit();
+        }
     }
 
     public void Play() // plays everything

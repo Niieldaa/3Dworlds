@@ -15,7 +15,7 @@ namespace Scenes
             for(int i = 0; i < waypoints.Length; i++)    //waypoint.Length tells us how many components is used in unity,
             {
                 //log waypoints current name and index in consol
-                Debug.Log("Waypoint " + i + " : " + waypoints[i].name);    
+                //Debug.Log("Waypoint " + i + " : " + waypoints[i].name);    
 
             }
             // Changes position twards the waypoint 

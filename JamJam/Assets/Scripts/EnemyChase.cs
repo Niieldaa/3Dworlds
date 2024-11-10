@@ -5,6 +5,9 @@ public class EnemyChase : MonoBehaviour
     public Transform player; // Assign the player's transform in the Inspector
     public float chaseDistance = 10f; // Distance within which the enemy will start chasing the player
     public float moveSpeed = 5f; // Speed at which the enemy will move
+    public int damageAmount = 10;
+    private Collision collision;
+    private PlayerHealth playerHealth;
 
     private void Update()
     {
@@ -15,13 +18,14 @@ public class EnemyChase : MonoBehaviour
         if (distanceToPlayer < chaseDistance)
         {
             ChasePlayer();
-        }
-    }
 
-    void ChasePlayer()
-    {
-        // Move the enemy towards the player
-        Vector3 direction = (player.position - transform.position).normalized; // Get direction towards the player
-        transform.position += direction * moveSpeed * Time.deltaTime; // Move in that direction
+        }
+
+        void ChasePlayer()
+        {
+            // Move the enemy towards the player
+            Vector3 direction = (player.position - transform.position).normalized; // Get direction towards the player
+            transform.position += direction * moveSpeed * Time.deltaTime; // Move in that direction
+        }
     }
 }
