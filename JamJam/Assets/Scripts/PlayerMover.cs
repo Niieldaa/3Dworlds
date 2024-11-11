@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class PlayerMover : MonoBehaviour
 {
@@ -19,7 +20,8 @@ public class PlayerMover : MonoBehaviour
    public float jumpCameraOffset = 0.2f;    // Camera offset when jumping
    public float landCameraOffset = -0.2f;   // Camera offset when landing
    public float cameraReturnSpeed = 5f;     //
-   private Vector3 initialCameraPosition; 
+   private Vector3 initialCameraPosition;
+   public AudioClip[] Clips;
    
    [SerializeField] private float jumpHeight;
    
@@ -28,16 +30,21 @@ public class PlayerMover : MonoBehaviour
    
    // References
    private CharacterController controller;
-   private Animator anim;
+   private Animator Animator;
 
    // New jump control variables
    private bool isJumping = false; // Ensures jump only triggers once until landing
+
+   private void OnValidate()
+   {
+      if (!Animator) Animator = GetComponent<Animator>();
+   }
 
    private void Start()
    {
       initialCameraPosition = cameraTransform.localPosition;
       controller = GetComponent<CharacterController>();
-      anim = GetComponentInChildren<Animator>();
+      Animator = GetComponentInChildren<Animator>();
    }
 
    private void Update()
@@ -62,7 +69,7 @@ public class PlayerMover : MonoBehaviour
          if (isJumping)
          {
             isJumping = false;    // Reset jumping flag
-            anim.SetBool("IsJumping", false); // Update animation to return to blend tree
+            Animator.SetBool("IsJumping", false); // Update animation to return to blend tree
          }
       }
       else if (!isGrounded)
@@ -112,32 +119,32 @@ public class PlayerMover : MonoBehaviour
 
    private void Idle()
    {
-      anim.SetFloat("Speed", 0, 0.1f, Time.deltaTime);
+      Animator.SetFloat("Speed", 0, 0.1f, Time.deltaTime);
    }
    
    private void Walk()
    {
       moveSpeed = walkSpeed;
-      anim.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
+      Animator.SetFloat("Speed", 0.5f, 0.1f, Time.deltaTime);
    }
    
    private void Run()
    {
       moveSpeed = runSpeed;
-      anim.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
+      Animator.SetFloat("Speed", 1, 0.1f, Time.deltaTime);
    }
    
    private void Jump()
    {
       // Calculate jump velocity based on desired height and gravity
       velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
-      anim.SetBool("IsJumping", true);   // Set jumping animation
+      Animator.SetBool("IsJumping", true);   // Set jumping animation
       isJumping = true;                  // Prevent multiple jumps until landing
       cameraTransform.localPosition = initialCameraPosition + new Vector3(0, jumpCameraOffset, 0);
    }
    private void OnLand()
    {
-      anim.SetBool("IsJumping", false);     // Reset jumping animation
+      Animator.SetBool("IsJumping", false);     // Reset jumping animation
       isJumping = false;
 
       // Move the camera down slightly when landing

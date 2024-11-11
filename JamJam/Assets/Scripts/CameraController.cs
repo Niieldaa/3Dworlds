@@ -6,7 +6,7 @@ using Cursor = UnityEngine.Cursor;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private float mouseSensitivity = 100.0f;
-    [SerializeField] private float distanceAboveGround = 2.0f;
+    [SerializeField] private float distanceAboveGround = 2.0f; // Desired height above the ground
     [SerializeField] private float verticalRotationLimit = 80.0f;  // Limit for vertical rotation
     [SerializeField] private Transform target; // Character to follow
 
@@ -52,10 +52,18 @@ public class CameraController : MonoBehaviour
 
     private void MaintainGroundDistance()
     {
-        // Check if camera is below minimum height and adjust if necessary
-        if (transform.position.y < target.position.y + distanceAboveGround)
+        RaycastHit hit;
+        // Cast a ray downward from the camera's position to check the distance to the ground
+        if (Physics.Raycast(transform.position, Vector3.down, out hit))
         {
-            transform.position = new Vector3(transform.position.x, target.position.y + distanceAboveGround, transform.position.z);
+            float groundDistance = hit.distance;
+
+            // If the camera is closer to the ground than the specified distanceAboveGround, move it up
+            if (groundDistance < distanceAboveGround)
+            {
+                float adjustment = distanceAboveGround - groundDistance;
+                transform.position += new Vector3(0, adjustment, 0);
+            }
         }
     }
 }

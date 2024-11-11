@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class StaffMagic : MonoBehaviour
@@ -13,6 +14,9 @@ public class StaffMagic : MonoBehaviour
     [SerializeField] private Animator anim;
     private bool shoot = false;
 
+    public GameObject impactEffect;
+    public AudioClip fireball;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +29,7 @@ public class StaffMagic : MonoBehaviour
         // Check if Fire1 button is pressed down
         if (Input.GetButtonDown("Fire1"))
         {
+            AudioSource.PlayClipAtPoint(fireball, transform.position);
             shoot = true;  // Set shoot to true when firing starts
             anim.SetBool("shoot", true);  // Set the animator parameter to start the animation
             Shoot();
@@ -54,6 +59,10 @@ public class StaffMagic : MonoBehaviour
             {
                 target.TakeDamage(damage);  // Apply damage to the target
             }
+            
+            GameObject impactGO = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(impactGO, 2f);
+
         }
     }
 }

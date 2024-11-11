@@ -8,6 +8,7 @@ public class EnemyChase : MonoBehaviour
     public int damageAmount = 10;
     private Collision collision;
     private PlayerHealth playerHealth;
+    [SerializeField] private AudioClip[] Clips;
 
     private void Update()
     {
@@ -26,6 +27,8 @@ public class EnemyChase : MonoBehaviour
             // Move the enemy towards the player
             Vector3 direction = (player.position - transform.position).normalized; // Get direction towards the player
             transform.position += direction * moveSpeed * Time.deltaTime; // Move in that direction
+            var randomClip = Clips[Random.Range(0, Clips.Length - 1)];
+            AudioSource.PlayClipAtPoint(randomClip, transform.position);
         }
     }
 }
