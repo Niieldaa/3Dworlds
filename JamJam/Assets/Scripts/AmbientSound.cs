@@ -16,30 +16,29 @@ public class AmbientSound : MonoBehaviour
         }
 
         audioSource.volume = volume; // Set initial volume
-        audioSource.loop = false; // Set loop to false to avoid continuous playback unless intended
+        
     }
 
     // Method to play a random ambient sound
     public void PlayRandomAmbientSound()
     {
+        
         if (ambientSounds == null || ambientSounds.Length == 0)
         {
             Debug.LogWarning("No ambient sounds assigned in the array.");
             return;
         }
 
-        // Choose a random clip from the array
-        AudioClip randomClip = ambientSounds[Random.Range(0, ambientSounds.Length)];
-
-        if (randomClip != null)
+        // Ensure the audio isn't already playing
+        if (!audioSource.isPlaying)
         {
-            Debug.Log("Playing ambient sound: " + randomClip.name); // Add this line
-            audioSource.clip = randomClip;
-            audioSource.Play();
-        }
-        else
-        {
-            Debug.LogWarning("Selected clip is null.");
+            // Choose a random clip from the array
+            AudioClip randomClip = ambientSounds[Random.Range(0, ambientSounds.Length - 1)];
+            
+            // audioSource.clip = randomClip;
+            // audioSource.Play();
+            
+            AudioSource.PlayClipAtPoint(randomClip, transform.position);
         }
     }
 }

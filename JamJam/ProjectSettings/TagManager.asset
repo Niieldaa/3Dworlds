@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ghost
+  - Rock
+  - Tree
+  - MagicRock
   layers:
   - Default
   - TransparentFX

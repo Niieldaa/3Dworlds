@@ -26,7 +26,6 @@ namespace Scenes
                 if (currentWaypointIndex >= waypoints.Length) // if the index is bigger or equal than the highest arraypoint, then changes current to 0 (reset).
                 {                                             // this is a nested if statemennt
                     currentWaypointIndex = 0;
-                    DestroyObject(gameObject);
                 }
             }
 

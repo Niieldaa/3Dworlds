@@ -58,10 +58,35 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3702431261691921820, guid: a9129ae83f8faf646961b70c4b103833,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a9129ae83f8faf646961b70c4b103833,
         type: 3}
       propertyPath: m_Name
       value: PT_Ore_Rock_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a9129ae83f8faf646961b70c4b103833,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a9129ae83f8faf646961b70c4b103833,
+        type: 3}
+      propertyPath: m_TagString
+      value: MagicRock
+      objectReference: {fileID: 0}
+    - target: {fileID: 2678150391462265373, guid: a9129ae83f8faf646961b70c4b103833,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5967640213216421541, guid: a9129ae83f8faf646961b70c4b103833,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -71,6 +96,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 858338465601455001}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a9129ae83f8faf646961b70c4b103833,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -119649233411390744}
   m_SourcePrefab: {fileID: 100100000, guid: a9129ae83f8faf646961b70c4b103833, type: 3}
 --- !u!1 &2839651470633923835 stripped
 GameObject:
@@ -99,3 +128,16 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.22
   m_Center: {x: 0.04, y: 0.23, z: 0}
+--- !u!114 &-119649233411390744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2839651470633923835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00f1d571d8b2cd74b939c7acbbeed996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 3
