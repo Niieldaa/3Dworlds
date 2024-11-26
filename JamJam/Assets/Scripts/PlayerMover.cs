@@ -28,6 +28,10 @@ public class PlayerMover : MonoBehaviour
    private Vector3 moveDirection;
    private Vector3 velocity;
    
+   Rigidbody[] rigidbodies; 
+   bool bIsRagdoll = false;
+   int respawnTime = 2;
+   
    // References
    private CharacterController controller;
    private Animator Animator;
@@ -42,10 +46,33 @@ public class PlayerMover : MonoBehaviour
 
    private void Start()
    {
+      rigidbodies = GetComponentsInChildren<Rigidbody>(); 
+      ToggleRagdoll(true);
       initialCameraPosition = cameraTransform.localPosition;
       controller = GetComponent<CharacterController>();
       Animator = GetComponentInChildren<Animator>();
    }
+   
+   private void OnCollisionEnter(Collision collision) 
+   {
+      if (!bIsRagdoll && collision.gameObject.tag == "Projectile")
+      {
+         ToggleRagdoll(false); StartCoroutine(GetBackUp()); 
+      } 
+   }
+
+   private void ToggleRagdoll(bool ragdoll)
+   {
+      
+   }
+   
+   IEnumerator GetBackUp()
+   {
+      yield return new WaitForSeconds(respawnTime); 
+      ToggleRagdoll(true);
+   }
+   
+   
 
    private void Update()
    {

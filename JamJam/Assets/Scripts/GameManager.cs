@@ -11,6 +11,7 @@ using UnityEngine.Animations; // new
 public class GameManager : MonoBehaviour
 {
     public GameObject startMenu;
+    public GameObject statsMenu;
     public PlayerMover player;
     public CameraController CC;
     public Transform MainCam;
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
         Pausee();
         MainCam = Camera.main.transform;
         aim.SetActive(false);
+        statsMenu.SetActive(false);
     }
 
     private void Update()
@@ -42,6 +44,7 @@ public class GameManager : MonoBehaviour
         // Time.timeScale = 1f; // the game is now working
         CC.enabled = true;
         player.enabled = true; // it is now possible to use the player
+        statsMenu.SetActive(true);
         aim.SetActive(true);
     }
 
