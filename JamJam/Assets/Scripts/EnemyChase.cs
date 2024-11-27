@@ -12,6 +12,11 @@ public class EnemyChase : MonoBehaviour
 
     private void Start()
     {
+        // Find the player's transform dynamically by tag
+        GameObject playerObject = GameObject.FindWithTag("Player");
+        
+        player = playerObject.transform;
+        
         // Get the AudioSource component attached to the enemy
         audioSource = GetComponent<AudioSource>();
         

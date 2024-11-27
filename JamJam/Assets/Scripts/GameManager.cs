@@ -6,7 +6,8 @@ using UnityEngine;
 using UnityEngine.UI; // see this
 using TMPro;
 using Unity.VisualScripting;
-using UnityEngine.Animations; // new
+using UnityEngine.Animations;
+using UnityEngine.SceneManagement; // new
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     public Transform MainCam;
     public GameObject Tiger;
     public GameObject aim;
+    public GameObject gameOver;
     private void Awake() // starts on awake
     {
         DontDestroyOnLoad(this);
@@ -54,10 +56,28 @@ public class GameManager : MonoBehaviour
         CC.enabled = !CC.enabled;
         player.enabled = !player.enabled; // the player is now not enabled, not updated
         aim.SetActive(!aim.activeSelf); // activates and deactivates crosshair
+        gameOver.SetActive(false);
+    }
+
+    public void GameOver()
+    {
+        // Time.timeScale = 0f; // the game is now 'paused'
+        CC.enabled = !CC.enabled;
+        player.enabled = !player.enabled; // the player is now not enabled, not updated
+        aim.SetActive(!aim.activeSelf); // activates and deactivates crosshair
+        gameOver.SetActive(true);
     }
 
     public void Quit()
     {
         Application.Quit();
     }
+    
+    // Method to load the "Sample Scene"
+    public void PlayAgain()
+    {
+        // Load the SampleScene (replace with the exact name of your scene)
+        SceneManager.LoadScene("SampleScene");
+    }
+
 }

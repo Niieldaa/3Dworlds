@@ -1,44 +1,61 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnObjects : MonoBehaviour
 {
-    public GameObject prefab;
-    public Terrain terrain;
-    public float yOffset = 0.5f;
+    public GameObject prefab; // Enemy prefab to spawn
+    public Terrain terrain; // Reference to the terrain
+    public Transform player; // Reference to the player's transform
+    public float spawnRadius = 20f; // Radius around the player to spawn enemies
+    public float yOffset = 0.5f; // Height offset for enemy placement
+    public int maxEnemies = 10; // Maximum number of enemies to spawn
+    public float spawnInterval = 10f; // Time between spawns
+    public Collider triggerZone; // The trigger collider that starts spawning
 
-    private float terrainWidth;
-    private float terrainLength;
+    private int enemyCount;
+    private Coroutine spawnCoroutine; // Reference to the running coroutine
 
-    private float xTerrainPos;
-    private float zTerrainPos;
-
-
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        //Get terrain size
-        terrainWidth = terrain.terrainData.size.x;
-        terrainLength = terrain.terrainData.size.z;
-
-        //Get terrain position
-        xTerrainPos = terrain.transform.position.x;
-        zTerrainPos = terrain.transform.position.z;
-
-        generateObjectOnTerrain();
+        // Check if the object entering the trigger is the player
+        if (other.CompareTag("Player") && spawnCoroutine == null)
+        {
+            spawnCoroutine = StartCoroutine(EnemyDrop());
+        }
     }
 
-    void generateObjectOnTerrain()
+    private void OnTriggerExit(Collider other)
     {
-        //Generate random x,z,y position on the terrain
-        float randX = UnityEngine.Random.Range(xTerrainPos, xTerrainPos + terrainWidth);
-        float randZ = UnityEngine.Random.Range(zTerrainPos, zTerrainPos + terrainLength);
-        float yVal = Terrain.activeTerrain.SampleHeight(new Vector3(randX, 0, randZ));
+        // Check if the object exiting the trigger is the player
+        if (other.CompareTag("Player") && spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine); // Stop the spawning coroutine
+            spawnCoroutine = null; // Clear the coroutine reference
+        }
+    }
 
-        //Apply Offset if needed
-        yVal = yVal + yOffset;
+    IEnumerator EnemyDrop()
+    {
+        while (enemyCount < maxEnemies)
+        {
+            // Generate a random point within a circle around the player
+            Vector2 randomPoint = Random.insideUnitCircle * spawnRadius;
+            float randX = player.position.x + randomPoint.x;
+            float randZ = player.position.z + randomPoint.y;
 
-        //Generate the Prefab on the generated position
-        GameObject objInstance = (GameObject)Instantiate(prefab, new Vector3(randX, yVal, randZ), Quaternion.identity);
+            // Clamp the positions to ensure they're within terrain bounds
+            // clamp is when its between minimum and maximum..
+            randX = Mathf.Clamp(randX, terrain.transform.position.x, terrain.transform.position.x + terrain.terrainData.size.x);
+            randZ = Mathf.Clamp(randZ, terrain.transform.position.z, terrain.transform.position.z + terrain.terrainData.size.z);
+
+            // Get the terrain height at the generated position
+            float yVal = terrain.SampleHeight(new Vector3(randX, 0, randZ)) + yOffset;
+
+            // Spawn the enemy prefab
+            Instantiate(prefab, new Vector3(randX, yVal, randZ), Quaternion.identity);
+
+            enemyCount++;
+            yield return new WaitForSeconds(spawnInterval);
+        }
     }
 }
